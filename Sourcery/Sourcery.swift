@@ -27,7 +27,7 @@ class Sourcery {
 
     fileprivate let verbose: Bool
     fileprivate let watcherEnabled: Bool
-    fileprivate let arguments: [String: NSObject]
+    fileprivate let argument: [String: NSObject]
     fileprivate let cacheDisabled: Bool
     fileprivate let cacheBasePath: Path?
     fileprivate let prune: Bool
@@ -42,10 +42,10 @@ class Sourcery {
     /// Creates Sourcery processor
     ///
     /// - Parameter verbose: Whether to turn on verbose logs.
-    /// - Parameter arguments: Additional arguments to pass to templates.
-    init(verbose: Bool = false, watcherEnabled: Bool = false, cacheDisabled: Bool = false, cacheBasePath: Path? = nil, prune: Bool = false, arguments: [String: NSObject] = [:]) {
+    /// - Parameter argument: Additional arguments to pass to templates.
+    init(verbose: Bool = false, watcherEnabled: Bool = false, cacheDisabled: Bool = false, cacheBasePath: Path? = nil, prune: Bool = false, argument: [String: NSObject] = [:]) {
         self.verbose = verbose
-        self.arguments = arguments
+        self.argument = argument
         self.watcherEnabled = watcherEnabled
         self.cacheDisabled = cacheDisabled
         self.cacheBasePath = cacheBasePath
@@ -449,13 +449,13 @@ extension Sourcery {
 
     private func generate(_ template: Template, forParsingResult parsingResult: ParsingResult, outputPath: Path) throws -> String {
         guard watcherEnabled else {
-            let result = try Generator.generate(parsingResult.types, template: template, arguments: self.arguments)
+            let result = try Generator.generate(parsingResult.types, template: template, arguments: self.argument)
             return try processRanges(in: parsingResult, result: result, outputPath: outputPath)
         }
 
         var result: String = ""
         SwiftTryCatch.try({
-                              result = (try? Generator.generate(parsingResult.types, template: template, arguments: self.arguments)) ?? ""
+                              result = (try? Generator.generate(parsingResult.types, template: template, arguments: self.argument)) ?? ""
                           }, catch: { error in
             result = error?.description ?? ""
         }, finallyBlock: {})
