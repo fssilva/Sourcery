@@ -2,6 +2,11 @@
 
 ---
 
+## 0.14.1
+
+### Bug fixes
+- Unify how arguments are accessed on `Stencil`, `JS` and `Swift`. From now you should use `argument` instead or `arguments`.
+
 ## 0.14.0
 
 ### New Features
